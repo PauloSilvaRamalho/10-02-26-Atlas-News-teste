@@ -9,6 +9,7 @@ import { BlurView } from 'expo-blur';
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [perfilAberto, setPerfilAberto] = useState(false);
+  const [postarAberto, setPostarAberto] = useState(false)
   const [fontsLoaded] = useFonts({ Poppins_400Regular, Poppins_700Bold});
   const image = require('./assets/cloud.jpg');
 
@@ -37,6 +38,7 @@ export default function App() {
           <MenuItem icon="football" text="Esporte" />
           <MenuItem icon="globe" text="Mundo" />
           <MenuItem icon="code-slash" text="Tecnologia" />
+          <MenuItem icon="add-circle-sharp" text="Postar Notícia" onPress={() => setPostarAberto(true)}></MenuItem>
         </View>
       )}
 
@@ -48,18 +50,54 @@ export default function App() {
           title="Manchester vence Newcastle por 3x1 em partida emocionante"
         />
         <NewsItem 
+          image={''}
           title="Ataque em mesquita no Paquistão deixa dezenas de mortos e feridos" 
         />
         <NewsItem 
+          image={'https://img.freepik.com/fotos-gratis/homem-de-tiro-medio-usando-oculos-vr_23-2149126949.jpg?semt=ais_user_personalization&w=740&q=80'}
           title="Mercado de tecnologia em queda devido a receios com IA" 
         />
         
       </ScrollView>
       
+
+      {/* TELA DE LOGIN */}
       <Modal transparent visible={perfilAberto} animationType="fade">
+        <BlurView intensity={50} tint="dark" style={StyleSheet.absoluteFill} animationType="fade"/>
         <View style={styles.modalFundo}>
           <View style={[styles.perfilConteudo]}>
             <Pressable style={styles.fechar} onPress={() => setPerfilAberto(false)}>
+              <EvilIcons name="close" size={24} color="black"/>
+            </Pressable>
+            
+            <Text style={[styles.loginTitulo]}>Login</Text>
+            
+            <Text style={[styles.label]}>Email</Text>
+            <TextInput
+              placeholder="exemplo@email.com"
+              style={[styles.input]}
+            />
+
+            <Text style={[styles.label]}>Senha</Text>
+            <TextInput
+              placeholder="Digite sua senha"
+              secureTextEntry
+              style={[styles.input]}
+            />
+
+            <TouchableOpacity style={[styles.botao]}>
+              <Text style={styles.botaoTexto}>Entrar</Text>
+            </TouchableOpacity>
+            
+          </View>
+        </View>
+      </Modal>
+
+      {/* TELA DE POSTAGEM */}
+      <Modal transparent visible={postarAberto} animationType="fade">
+        <View style={styles.modalFundo}>
+          <View style={[styles.perfilConteudo]}>
+            <Pressable style={styles.fechar} onPress={() => setPostarAberto(false)}>
               <EvilIcons name="close" size={24} color="black"/>
             </Pressable>
             
@@ -160,7 +198,7 @@ const styles = StyleSheet.create({
   },
   newsItem: {
     marginBottom: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffffad',
     borderRadius: 8,
     overflow: 'hidden',
     width: '90%',
@@ -168,14 +206,17 @@ const styles = StyleSheet.create({
   },
   newsImage: {
     width: '100%',
-    height: 120,
-    borderRadius: 10,
-    borderColor: '#9b7c3a'
+    height: 150,
+    
   },
   newsTitle: {
     padding: 8,
     fontSize: 14,
     fontWeight: 'bold',
+    shadowColor: '#9b7c3a',
+    shadowOffset: { width: 3, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 7,
   },
   modalFundo: {
     flex: 1,
@@ -185,7 +226,7 @@ const styles = StyleSheet.create({
   },
   perfilConteudo: {
     width: '85%',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 10,
     padding: 20,
   },
