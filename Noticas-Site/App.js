@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Modal, Tex
 import { Ionicons, EvilIcons} from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
 import { Poppins_400Regular, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import { BlurView } from 'expo-blur';
 
 
 export default function App() {
@@ -14,22 +15,24 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      
-
-      <View style={styles.topBar}>
+       <ImageBackground source={image} style={styles.image}>
+        <View style={styles.topBar}>
+        <BlurView intensity={50} tint="dark" style={StyleSheet.absoluteFill}/>
         <TouchableOpacity onPress={() => setMenuOpen(!menuOpen)}>
           <Ionicons name="menu" size={28} color="#fff" />
         </TouchableOpacity>
-
-        <Text style={styles.title}>Atlas News</Text>
-
+        
+        <Text style={styles.title}>Atlas News <Ionicons name="compass" size={16} color="#9b7c3a"/></Text>
+        
         <TouchableOpacity onPress={() => setPerfilAberto(true)}>
           <Ionicons name="person-circle-outline" size={45} color="#fff" />
         </TouchableOpacity>
+        
       </View>
-
+      
       {menuOpen && (
         <View style={styles.sidebar}>
+          <BlurView intensity={50} tint="dark" style={StyleSheet.absoluteFill}/>
           <MenuItem icon="home" text="Home" />
           <MenuItem icon="football" text="Esporte" />
           <MenuItem icon="globe" text="Mundo" />
@@ -37,8 +40,9 @@ export default function App() {
         </View>
       )}
 
+      
       <ScrollView style={styles.content}>
-       <ImageBackground source={image} style={styles.image}> 
+       
         <NewsItem
           image={'https://lncimg.lance.com.br/uploads/2025/04/AGIF25040922005164-scaled-aspect-ratio-512-320-2.jpg'}
           title="Manchester vence Newcastle por 3x1 em partida emocionante"
@@ -49,18 +53,18 @@ export default function App() {
         <NewsItem 
           title="Mercado de tecnologia em queda devido a receios com IA" 
         />
-        </ImageBackground>
+        
       </ScrollView>
-
+      
       <Modal transparent visible={perfilAberto} animationType="fade">
         <View style={styles.modalFundo}>
           <View style={[styles.perfilConteudo]}>
             <Pressable style={styles.fechar} onPress={() => setPerfilAberto(false)}>
               <EvilIcons name="close" size={24} color="black"/>
             </Pressable>
-
+            
             <Text style={[styles.loginTitulo]}>Login</Text>
-
+            
             <Text style={[styles.label]}>Email</Text>
             <TextInput
               placeholder="exemplo@email.com"
@@ -77,10 +81,12 @@ export default function App() {
             <TouchableOpacity style={[styles.botao]}>
               <Text style={styles.botaoTexto}>Entrar</Text>
             </TouchableOpacity>
+            
           </View>
         </View>
       </Modal>
-     
+      
+     </ImageBackground>
     </View>
   );
 }
@@ -110,7 +116,7 @@ const styles = StyleSheet.create({
   },
   topBar: {
     height: 60,
-    backgroundColor: '#111111',
+    backgroundColor: '#11111165',
     flexDirection: 'row',
     paddingHorizontal: 16,
     elevation: 5,
@@ -221,6 +227,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   image:{
+    height: '100%',
+    width: '100%',
     flex: 1, 
     justifyContent: 'center', 
     resizeMode: 'cover',
